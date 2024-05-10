@@ -1,0 +1,21 @@
+Moscow Novosibirsk 7
+Moscow Toronto 9
+Moscow Toronto Krasnoyarsk 11
+Moscow Novosibirsk Omsk 22
+Moscow Toronto Krasnoyarsk Kiev 20
+Novosibirsk Toronto 10
+Novosibirsk Toronto Krasnoyarsk 12
+Novosibirsk Omsk 15
+Novosibirsk Toronto Krasnoyarsk Kiev 21
+Toronto Krasnoyarsk 2
+Toronto Krasnoyarsk Kiev Omsk 17
+Toronto Krasnoyarsk Kiev 11
+Krasnoyarsk Kiev Omsk Toronto 26
+Krasnoyarsk Kiev Omsk 15
+Krasnoyarsk Kiev 9
+Omsk Toronto 11
+Omsk Toronto Krasnoyarsk 13
+Omsk Toronto Krasnoyarsk Kiev 22
+Kiev Omsk Toronto 17
+Kiev Omsk Toronto Krasnoyarsk 19
+Kiev Omsk 6
