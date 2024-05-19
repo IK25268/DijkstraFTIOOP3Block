@@ -3,55 +3,47 @@
 #include <fstream>
 #include "Dijkstra.hpp"
 
-Dijkstra::Dijkstra()
-{
-}
-
-Dijkstra::~Dijkstra()
-{
-}
-
 void Dijkstra::CalcAllRoutes(Graph& graph)
 {
-	for (int numbFrom = 0; numbFrom < graph.GetGraphInput().size(); numbFrom++)
+	for (auto& iterFrom : graph.ReturnWeighOrientGraph())
 	{
-		graph.GetGraphOutput().push_back({});
-		for (int numbTo = 0; numbTo < graph.GetGraphInput().size(); numbTo++)
+		graph.ReturnShortDistMatrix()[iterFrom.first] = {};
+		for (auto& iterTo : graph.ReturnWeighOrientGraph())
 		{
-			graph.GetGraphOutput()[numbFrom].push_back({ {}, INF, -1, 0});
+			graph.ReturnShortDistMatrix()[iterFrom.first][iterTo.first] = { {}, INF, "-1", 0 };
 		}
-		graph.GetGraphOutput()[numbFrom][numbFrom].distance = 0;
-		for (int i = 0; i < graph.GetGraphInput().size(); i++)
+		graph.ReturnShortDistMatrix()[iterFrom.first][iterFrom.first].distance = 0;
+		for (auto& i : graph.ReturnWeighOrientGraph())
 		{
-			int n = -1;
-			for (int v = 0; v < graph.GetGraphInput().size(); v++)
+			std::string n = "-1";
+			for (auto& v : graph.ReturnWeighOrientGraph())
 			{
-				if ((graph.GetGraphOutput()[numbFrom][v].visited == 0)&&((n == -1)||(graph.GetGraphOutput()[numbFrom][n].distance > graph.GetGraphOutput()[numbFrom][v].distance)))
+				if ((graph.ReturnShortDistMatrix()[iterFrom.first][v.first].visited == 0) && ((n == "-1") || (graph.ReturnShortDistMatrix()[iterFrom.first][n].distance > graph.ReturnShortDistMatrix()[iterFrom.first][v.first].distance)))
 				{
-					n = v;
+					n = v.first;
 				}
 			}
-			if (graph.GetGraphOutput()[numbFrom][n].distance == 1e9)
+			if (graph.ReturnShortDistMatrix()[iterFrom.first][n].distance == 1e9)
 			{
 				break;
 			}
-			graph.GetGraphOutput()[numbFrom][n].visited = '1';
-			for (auto & iter : graph.GetGraphInput()[n])
+			graph.ReturnShortDistMatrix()[iterFrom.first][n].visited = '1';
+			for (auto & iter : graph.ReturnWeighOrientGraph()[n])
 			{
-				if (graph.GetGraphOutput()[numbFrom][iter.first].distance > graph.GetGraphOutput()[numbFrom][n].distance + iter.second)
+				if (graph.ReturnShortDistMatrix()[iterFrom.first][iter.first].distance > graph.ReturnShortDistMatrix()[iterFrom.first][n].distance + iter.second)
 				{
-					graph.GetGraphOutput()[numbFrom][iter.first].distance = graph.GetGraphOutput()[numbFrom][n].distance + iter.second;
-					graph.GetGraphOutput()[numbFrom][iter.first].from = n;
+					graph.ReturnShortDistMatrix()[iterFrom.first][iter.first].distance = graph.ReturnShortDistMatrix()[iterFrom.first][n].distance + iter.second;
+					graph.ReturnShortDistMatrix()[iterFrom.first][iter.first].from = n;
 				}
 			}
 		}
-		for (int j = 0; j < graph.GetGraphInput().size(); j++)
+		for (auto& j : graph.ReturnWeighOrientGraph())
 		{
-			if (j != numbFrom)
+			if (j.first != iterFrom.first)
 			{
-				for (int v = graph.GetGraphOutput()[numbFrom][j].from; (v != numbFrom) && (v != -1); v = graph.GetGraphOutput()[numbFrom][v].from)
+				for (auto v = graph.ReturnShortDistMatrix()[iterFrom.first][j.first].from; (v != iterFrom.first) && (v != "-1"); v = graph.ReturnShortDistMatrix()[iterFrom.first][v].from)
 				{
-					graph.GetGraphOutput()[numbFrom][j].stopovers.push_front(v);
+					graph.ReturnShortDistMatrix()[iterFrom.first][j.first].stopovers.push_front(v);
 				}
 			}
 		}

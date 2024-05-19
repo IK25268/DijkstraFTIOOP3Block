@@ -1,0 +1,41 @@
+Kiev Omsk Toronto Krasnoyarsk 19
+Kiev Omsk 6
+Kiev Omsk Toronto 17
+Krasnoyarsk Kiev 9
+Krasnoyarsk Kiev Omsk 15
+Krasnoyarsk Kiev Omsk Toronto 26
+Moscow Toronto Krasnoyarsk Kiev 20
+Moscow Toronto Krasnoyarsk 11
+Moscow Novosibirsk 7
+Moscow Novosibirsk Omsk 22
+Moscow Toronto 9
+Novosibirsk Toronto Krasnoyarsk Kiev 21
+Novosibirsk Toronto Krasnoyarsk 12
+Novosibirsk Omsk 15
+Novosibirsk Toronto 10
+Omsk Toronto Krasnoyarsk Kiev 22
+Omsk Toronto Krasnoyarsk 13
+Omsk Toronto 11
+Toronto Krasnoyarsk Kiev 11
+Toronto Krasnoyarsk 2
+Toronto Krasnoyarsk Kiev Omsk 17Kiev Omsk Toronto Krasnoyarsk 19
+Kiev Omsk 6
+Kiev Omsk Toronto 17
+Krasnoyarsk Kiev 9
+Krasnoyarsk Kiev Omsk 15
+Krasnoyarsk Kiev Omsk Toronto 26
+Moscow Toronto Krasnoyarsk Kiev 20
+Moscow Toronto Krasnoyarsk 11
+Moscow Novosibirsk 7
+Moscow Novosibirsk Omsk 22
+Moscow Toronto 9
+Novosibirsk Toronto Krasnoyarsk Kiev 21
+Novosibirsk Toronto Krasnoyarsk 12
+Novosibirsk Omsk 15
+Novosibirsk Toronto 10
+Omsk Toronto Krasnoyarsk Kiev 22
+Omsk Toronto Krasnoyarsk 13
+Omsk Toronto 11
+Toronto Krasnoyarsk Kiev 11
+Toronto Krasnoyarsk 2
+Toronto Krasnoyarsk Kiev Omsk 17

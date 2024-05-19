@@ -3,25 +3,12 @@
 #include <fstream>
 #include "Graph.hpp"
 
-std::vector<std::string>& Graph::GetKey()
+std::map<std::string, std::map<std::string, unsigned int>>& Graph::ReturnWeighOrientGraph()
 {
-	return key;
+	return WeighOrientGraph;
 }
 
-std::vector<std::map<int, unsigned int>>& Graph::GetGraphInput()
+std::map<std::string, std::map<std::string, DataDistTo>>& Graph::ReturnShortDistMatrix()
 {
-	return graphInput;
-}
-
-std::vector<std::vector<DataGraphTo>>& Graph::GetGraphOutput()
-{
-	return graphOutput;
-}
-
-Graph::Graph()
-{
-}
-
-Graph::~Graph()
-{
+	return ShortDistMatrix;
 }

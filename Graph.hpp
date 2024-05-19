@@ -6,25 +6,21 @@
 #include <queue>
 #include <list>
 
-typedef struct DataGraphTo
+typedef struct DataDistTo
 {
-	std::list<int> stopovers;
-	int distance;
-	int from;
+	std::list<std::string> stopovers;
+	long int distance;
+	std::string from;
 	bool visited;
-}DataGraphTo;
+}DataDistTo;
 
 class Graph final {
 private:
-	std::vector<std::string> key;
-	std::vector<std::map<int, unsigned int>> graphInput;
-	std::vector<std::vector<DataGraphTo>> graphOutput;
+	std::map<std::string, std::map<std::string, unsigned int>> WeighOrientGraph;
+	std::map<std::string, std::map<std::string, DataDistTo>> ShortDistMatrix;
 public:
-	std::vector<std::string>& GetKey();
-	std::vector<std::map<int, unsigned int>>& GetGraphInput();
-	std::vector<std::vector<DataGraphTo>>& GetGraphOutput();
-	Graph();
-	~Graph();
+	std::map<std::string, std::map<std::string, unsigned int>>& ReturnWeighOrientGraph();
+	std::map<std::string, std::map<std::string, DataDistTo>>& ReturnShortDistMatrix();
 };
 
 #endif
