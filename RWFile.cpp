@@ -3,36 +3,28 @@
 #include <fstream>
 #include "RWFile.hpp"
 
-RWFile::RWFile()
-{
-}
-
-RWFile::~RWFile()
-{
-}
-
 void RWFile::WriteFile(Graph& graph, const char* outputName)
 {
     std::fstream fsOutput;
     fsOutput.open(outputName, std::fstream::in | std::fstream::out | std::fstream::app);
     if (fsOutput.is_open())
     {
-        for (int i = 0; i < graph.GetGraphOutput().size(); i++)
+        for (int i = 0; i < graph.ReturnShortDistMatrix().size(); i++)
         {
-            for (int j = 0; j < graph.GetGraphOutput().size(); j++)
+            for (int j = 0; j < graph.ReturnShortDistMatrix().size(); j++)
             {
-                if ((graph.GetGraphOutput()[i][j].distance != 0) && (graph.GetGraphOutput()[i][j].distance != INF))
+                if ((graph.ReturnShortDistMatrix()[i][j].distance != 0) && (graph.ReturnShortDistMatrix()[i][j].distance != INF))
                 {
-                    fsOutput << graph.GetKey()[i];
+                    fsOutput << graph.ReturnKey()[i];
                     fsOutput << ' ';
-                    for (auto & iterStopover:graph.GetGraphOutput()[i][j].stopovers)
+                    for (auto & iterStopover:graph.ReturnShortDistMatrix()[i][j].stopovers)
                     {
-                        fsOutput << graph.GetKey()[iterStopover];
+                        fsOutput << graph.ReturnKey()[iterStopover];
                         fsOutput << ' ';
                     }
-                    fsOutput << graph.GetKey()[j];
+                    fsOutput << graph.ReturnKey()[j];
                     fsOutput << ' ';
-                    fsOutput << graph.GetGraphOutput()[i][j].distance;
+                    fsOutput << graph.ReturnShortDistMatrix()[i][j].distance;
                     fsOutput << std::endl;
                 }
             }
@@ -56,23 +48,23 @@ void RWFile:: ReadFile(Graph& graph, const char* inputName)
             fsInput >> from;
             fsInput >> to;
             fsInput >> weight;
-            auto iterFrom = std::find(begin(graph.GetKey()), end(graph.GetKey()), from);
-            auto iterTo = std::find(begin(graph.GetKey()), end(graph.GetKey()), to);
-            int numbFrom = iterFrom == graph.GetKey().end() ? -1 : iterFrom - graph.GetKey().begin();
-            int numbTo = iterTo == graph.GetKey().end() ? -1 : iterTo - graph.GetKey().begin();
+            auto iterFrom = std::find(begin(graph.ReturnKey()), end(graph.ReturnKey()), from);
+            auto iterTo = std::find(begin(graph.ReturnKey()), end(graph.ReturnKey()), to);
+            int numbFrom = iterFrom == graph.ReturnKey().end() ? -1 : iterFrom - graph.ReturnKey().begin();
+            int numbTo = iterTo == graph.ReturnKey().end() ? -1 : iterTo - graph.ReturnKey().begin();
             if (numbFrom == -1)
             {
-                graph.GetKey().push_back(from);
-                graph.GetGraphInput().push_back({});
-                numbFrom = graph.GetKey().size() - 1;
+                graph.ReturnKey().push_back(from);
+                graph.ReturnWeighOrientGraph().push_back({});
+                numbFrom = graph.ReturnKey().size() - 1;
             }
             if (numbTo == -1)
             {
-                graph.GetKey().push_back(to);
-                graph.GetGraphInput().push_back({});
-                numbTo = graph.GetKey().size() - 1;
+                graph.ReturnKey().push_back(to);
+                graph.ReturnWeighOrientGraph().push_back({});
+                numbTo = graph.ReturnKey().size() - 1;
             }
-            graph.GetGraphInput()[numbFrom].insert({numbTo, weight});
+            graph.ReturnWeighOrientGraph()[numbFrom].insert({numbTo, weight});
         }
     }
     fsInput.close();
