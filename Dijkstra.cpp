@@ -3,49 +3,53 @@
 #include <fstream>
 #include "Dijkstra.hpp"
 
-void Dijkstra::CalcAllRoutes(Graph& graph)
+ std::string Dijkstra::CalcAllRoutes(Graph& graph, std::string from, std::string to)
 {
-	for (int numbFrom = 0; numbFrom < graph.ReturnWeighOrientGraph().size(); numbFrom++)
+	std::map<std::string, DataDistTo> shortDistVector = {};
+	for (auto& iterTo : graph.ReturnWeighOrientGraph())
 	{
-		graph.ReturnShortDistMatrix().push_back({});
-		for (int numbTo = 0; numbTo < graph.ReturnWeighOrientGraph().size(); numbTo++)
+		shortDistVector[iterTo.first] = { {}, INF, "-1", 0 };
+	}
+	shortDistVector[from].distance = 0;
+	for (auto& i : graph.ReturnWeighOrientGraph())
+	{
+		std::string nearest = "-1";
+		for (auto& v : graph.ReturnWeighOrientGraph())
 		{
-			graph.ReturnShortDistMatrix()[numbFrom].push_back({ {}, INF, -1, 0});
+			std::string next = v.first;
+			if ((shortDistVector[next].visited == 0) && ((nearest == "-1") || (shortDistVector[nearest].distance > shortDistVector[next].distance))) nearest = next;
 		}
-		graph.ReturnShortDistMatrix()[numbFrom][numbFrom].distance = 0;
-		for (int i = 0; i < graph.ReturnWeighOrientGraph().size(); i++)
+		if (shortDistVector[nearest].distance == 1e9) break;
+		shortDistVector[nearest].visited = '1';
+		for (auto & iter : graph.ReturnWeighOrientGraph()[nearest])
 		{
-			int n = -1;
-			for (int v = 0; v < graph.ReturnWeighOrientGraph().size(); v++)
+			if (shortDistVector[iter.first].distance > shortDistVector[nearest].distance + iter.second)
 			{
-				if ((graph.ReturnShortDistMatrix()[numbFrom][v].visited == 0)&&((n == -1)||(graph.ReturnShortDistMatrix()[numbFrom][n].distance > graph.ReturnShortDistMatrix()[numbFrom][v].distance)))
-				{
-					n = v;
-				}
-			}
-			if (graph.ReturnShortDistMatrix()[numbFrom][n].distance == 1e9)
-			{
-				break;
-			}
-			graph.ReturnShortDistMatrix()[numbFrom][n].visited = '1';
-			for (auto & iter : graph.ReturnWeighOrientGraph()[n])
-			{
-				if (graph.ReturnShortDistMatrix()[numbFrom][iter.first].distance > graph.ReturnShortDistMatrix()[numbFrom][n].distance + iter.second)
-				{
-					graph.ReturnShortDistMatrix()[numbFrom][iter.first].distance = graph.ReturnShortDistMatrix()[numbFrom][n].distance + iter.second;
-					graph.ReturnShortDistMatrix()[numbFrom][iter.first].from = n;
-				}
-			}
-		}
-		for (int j = 0; j < graph.ReturnWeighOrientGraph().size(); j++)
-		{
-			if (j != numbFrom)
-			{
-				for (int v = graph.ReturnShortDistMatrix()[numbFrom][j].from; (v != numbFrom) && (v != -1); v = graph.ReturnShortDistMatrix()[numbFrom][v].from)
-				{
-					graph.ReturnShortDistMatrix()[numbFrom][j].stopovers.push_front(v);
-				}
+				shortDistVector[iter.first].distance = shortDistVector[nearest].distance + iter.second;
+				shortDistVector[iter.first].from = nearest;
 			}
 		}
 	}
+	for (auto& iter : graph.ReturnWeighOrientGraph())
+	{
+		if (iter.first != from)
+		{
+			for (auto end = shortDistVector[iter.first].from; (end != from) && (end != "-1"); end = shortDistVector[end].from)
+			{
+				shortDistVector[iter.first].stopovers.push_front(end);
+			}
+		}
+	}
+	std::string output = "{";
+	output += from;
+	output += ", ";
+	for (auto & iterStopover: shortDistVector[to].stopovers)
+    {
+		output += iterStopover;
+		output += ", ";
+    }
+	output += to;
+	output += "} - ";
+	output += std::to_string(shortDistVector[to].distance);
+	return output;
 }
