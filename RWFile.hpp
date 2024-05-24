@@ -7,7 +7,7 @@
 
 class RWFile final {
 public:
-	static void ReadFile(Graph& graph, const char* inputName);
+	static Graph ReadFile(const std::string& inputName);
 };
 
 #endif

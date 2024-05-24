@@ -7,16 +7,12 @@
 
 class Dijkstra final {
 private:
-	typedef struct DataDistTo
-	{
-		std::list<std::string> stopovers;
-		long int distance;
-		std::string from;
-		bool visited;
-	}DataDistTo;
-	static const int INF = 1e9;
+	static std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>> InitShortDistVector(const Graph& graph, const std::string& from);
+	static std::string MakeStr(const std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>>& shortDistVector, const std::string& from, const std::string& to);
+	static void CalcStopovers(const Graph& graph, std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>>& shortDistVector, const std::string& from);
+	static const unsigned int INF = 1e9;
 public:
-	static std::string CalcAllRoutes(Graph& graph, std::string from, std::string to);
+	static std::string CalcRoute(const Graph& graph, const std::string& from, const std::string& to);
 };
 
 #endif

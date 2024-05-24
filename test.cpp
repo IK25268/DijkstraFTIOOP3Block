@@ -7,10 +7,9 @@
 #include "../DijkstraFTIOOP3Block/Graph.hpp"
 
 TEST(TestRoutes, TestName) {
-	Graph graph;
-	RWFile::ReadFile(graph, "input.txt");
-	std::string routeKT = Dijkstra::CalcAllRoutes(graph, "Krasnoyarsk", "Toronto");
-	std::string routeTO = Dijkstra::CalcAllRoutes(graph, "Toronto", "Omsk");
+	Graph graph(RWFile::ReadFile("input.txt"));
+	std::string routeKT = Dijkstra::CalcRoute(graph, "Krasnoyarsk", "Toronto");
+	std::string routeTO = Dijkstra::CalcRoute(graph, "Toronto", "Omsk");
 	ASSERT_STREQ(routeKT.data(), "{Krasnoyarsk, Kiev, Omsk, Toronto} - 26");
 	ASSERT_STREQ(routeTO.data(), "{Toronto, Krasnoyarsk, Kiev, Omsk} - 17");
 }

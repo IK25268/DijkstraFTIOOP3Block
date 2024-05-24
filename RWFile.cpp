@@ -3,8 +3,9 @@
 #include <fstream>
 #include "RWFile.hpp"
 
-void RWFile:: ReadFile(Graph& graph, const char* inputName)
+Graph RWFile::ReadFile(const std::string& inputName)
 {
+    Graph graph;
     std::fstream fsInput;
     fsInput.open(inputName, std::fstream::in | std::fstream::out | std::fstream::app);
     std::string from = "";
@@ -19,8 +20,9 @@ void RWFile:: ReadFile(Graph& graph, const char* inputName)
             fsInput >> from;
             fsInput >> to;
             fsInput >> weight;
-            graph.ReturnWeighOrientGraph()[from][to] = weight;
+            graph.AddEdge(from, to, weight);
         }
     }
     fsInput.close();
+    return graph;
 }

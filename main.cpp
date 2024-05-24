@@ -3,8 +3,7 @@
 
 int main()
 {
-	Graph graph;
-	RWFile::ReadFile(graph, "input.txt");
-	std::string path = Dijkstra::CalcAllRoutes(graph, "Krasnoyarsk", "Toronto");
+	Graph graph(RWFile::ReadFile("input.txt"));
+	std::string path = Dijkstra::CalcRoute(graph, "Krasnoyarsk", "Toronto");
 	return 0;
 }

@@ -3,7 +3,12 @@
 #include <fstream>
 #include "Graph.hpp"
 
-std::map<std::string, std::map<std::string, unsigned int>>& Graph::ReturnWeighOrientGraph()
+const std::unordered_map<std::string, std::unordered_map<std::string, unsigned int>>& Graph::GetWeighOrientGraph() const
 {
 	return WeighOrientGraph;
+}
+
+void Graph::AddEdge(const std::string& from, const std::string& to, const unsigned int& weight)
+{
+	WeighOrientGraph[from][to] = weight;
 }
