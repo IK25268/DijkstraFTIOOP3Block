@@ -5,23 +5,23 @@
 
 std::string Dijkstra::CalcRoute(const Graph& graph, const std::string& from, const std::string& to)
 {
-	std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>> shortDistVector = InitShortDistVector(graph, from);
+	std::unordered_map<std::string, DataDistTo> shortDistVector = InitShortDistVector(graph, from);
 	for (auto const& i : graph.GetWeighOrientGraph())
 	{
 		std::string nearest = "-1";
 		for (auto const& v : graph.GetWeighOrientGraph())
 		{
 			std::string next = v.first;
-			if ((shortDistVector[next].second.second == 0) && ((nearest == "-1") || (shortDistVector[nearest].first.second > shortDistVector[next].first.second))) nearest = next;
+			if ((shortDistVector[next].visited == 0) && ((nearest == "-1") || (shortDistVector[nearest].distance > shortDistVector[next].distance))) nearest = next;
 		}
-		if (shortDistVector[nearest].first.second == INF) break;
-		shortDistVector[nearest].second.second = '1';
+		if (shortDistVector[nearest].distance == INF) break;
+		shortDistVector[nearest].visited = '1';
 		for (auto const& iter : graph.GetWeighOrientGraph().at(nearest))
 		{
-			if (shortDistVector[iter.first].first.second > shortDistVector[nearest].first.second + iter.second)
+			if (shortDistVector[iter.first].distance > shortDistVector[nearest].distance + iter.second)
 			{
-				shortDistVector[iter.first].first.second = shortDistVector[nearest].first.second + iter.second;
-				shortDistVector[iter.first].second.first = nearest;
+				shortDistVector[iter.first].distance = shortDistVector[nearest].distance + iter.second;
+				shortDistVector[iter.first].from = nearest;
 			}
 		}
 	}
@@ -29,43 +29,43 @@ std::string Dijkstra::CalcRoute(const Graph& graph, const std::string& from, con
 	return MakeStr(shortDistVector, from, to);
 }
 
-std::string Dijkstra::MakeStr(const std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>>& shortDistVector, const std::string& from, const std::string& to)
+std::string Dijkstra::MakeStr(const std::unordered_map<std::string, DataDistTo>& shortDistVector, const std::string& from, const std::string& to)
 {
 	std::string output = "{";
 	output += from;
 	output += ", ";
-	for (auto const& iterStopover : shortDistVector.at(to).first.first)
+	for (auto const& iterStopover : shortDistVector.at(to).stopovers)
 	{
 		output += iterStopover;
 		output += ", ";
 	}
 	output += to;
 	output += "} - ";
-	output += std::to_string(shortDistVector.at(to).first.second);
+	output += std::to_string(shortDistVector.at(to).distance);
 	return output;
 }
 
-void Dijkstra::CalcStopovers(const Graph& graph, std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>>& shortDistVector, const std::string& from)
+void Dijkstra::CalcStopovers(const Graph& graph, std::unordered_map<std::string, DataDistTo>& shortDistVector, const std::string& from)
 {
 	for (auto const& iter : graph.GetWeighOrientGraph())
 	{
 		if (iter.first != from)
 		{
-			for (auto end = shortDistVector[iter.first].second.first; (end != from) && (end != "-1"); end = shortDistVector[end].second.first)
+			for (auto end = shortDistVector[iter.first].from; (end != from) && (end != "-1"); end = shortDistVector[end].from)
 			{
-				shortDistVector[iter.first].first.first.push_front(end);
+				shortDistVector[iter.first].stopovers.push_front(end);
 			}
 		}
 	}
 }
 
-std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>> Dijkstra::InitShortDistVector(const Graph& graph, const std::string& from)
+std::unordered_map<std::string, DataDistTo> Dijkstra::InitShortDistVector(const Graph& graph, const std::string& from)
 {
-	std::unordered_map<std::string, std::pair<std::pair<std::list<std::string>, unsigned int>, std::pair<std::string, bool>>> shortDistVector = {};
+	std::unordered_map<std::string, DataDistTo> shortDistVector = {};
 	for (auto const& iterTo : graph.GetWeighOrientGraph())
 	{
-		shortDistVector[iterTo.first] = { {{}, INF}, {"-1", 0} };
+		shortDistVector[iterTo.first] = { {}, INF, "-1", 0 };
 	}
-	shortDistVector[from].first.second = 0;
+	shortDistVector[from].distance = 0;
 	return shortDistVector;
 }
